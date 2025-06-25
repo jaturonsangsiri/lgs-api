@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// สร้าง Schema โครงสร้างข้อมูล
+// เก็บตู้ยาทั้งหมดของโรงบาลนั้น
+model Shelf {
+  id        String      @id @default(uuid())
+  name      String
+  type      ShelfType   @default(ONEHUNDRED)
+  status    ShelfStatus @default(ONLINE)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now())
+  updatedBy String
+
+  slot Slot[]
+}
+
+enum ShelfStatus {
+  ONLINE // ออนไลน์
+  OFFLINE //ออฟไลน์
+  MAINTENANCE // กำลังซ่อมบำรุง
+  LOADING // กำลังเติมยา
+}
+
+enum ShelfType {
+  ONEHUNDRED // ตู้กล่อง 100 กล่อง
+  TWOHUNDRED // ตู้กล่อง 200 กล่อง
+}
+
+// กล่องใส่ยา
+model Slot {
+  id        String     @id @default(uuid())
+  shelfId   String
+  shelf     Shelf      @relation(fields: [shelfId], references: [id])
+  drugId    String
+  drug      Drugs      @relation(fields: [drugId], references: [id])
+  name      String
+  quantity  Int        @default(0)
+  status    SlotStatus @default(CLOSE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+  updatedBy String
+}
+
+enum SlotStatus {
+  OPEN
+  CLOSE
+  REFILLING
+  UNUSABLE
+  MAINTAINING
+}
+
+// ยาทั้งหมดใน รพ.
+model Drugs {
+  id        String   @id @default(uuid())
+  name      String // ชื่อยา
+  dose      String
+  purpose   String // วัตถุประสงค์การใช้ยา
+  unit      String // หน่วยของยา ml
+  usage     String // วิธีใช้
+  warning   String // คำเตือนในการใช้
+  note      String // หมายเหตุ เช่น การใช้ยากับสตรีมีครรภ์
+  img       String // path รูปยา
+  documents String // เอกสารกับกำยา
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  Slot Slot[]
+}
+
+// ประวัติการทำงานทุกอย่าง
+model log {
+  id        String    @id @default(uuid())
+  type      SystemLog
+  createdAt DateTime  @default(now())
+  updatedBy String
+}
+
+enum SystemLog {
+  ADD_SHELF // เพิ่มกล่องยา
+  OPEN_SHELF // ตู้เปิด
+  CLOSE_SHELF // ตู้ปิด
+  REFILLING_DRUG // กำลังเติมยา
+  MAINTAINING_SHELF // กำลังซ่อมบำรุงตู้
+}
+
+// // ข้อมูลผู้ใช้ในระบบ
+// model users {
+//   id          String   @id @default(uuid())
+//   username    String // ชื่อบัญชี
+//   displayName String // ชื่อผู้ใช้ที่แสดงบนระบบ
+//   role        Role
+//   password    String
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @default(now())
+// }
+
+// // Role บทบาทผู้ใช้ในระบบ
+// enum Role {
+//   USER
+//   ADMIN
+//   SUPER_ADMIN
+// }
