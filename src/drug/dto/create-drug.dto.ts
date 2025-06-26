@@ -1,6 +1,5 @@
 import { Optional } from "@nestjs/common";
-import { IsNotEmpty, IsOptional, IsString, IsNumber, IsDate, IsEnum, MaxLength } from "class-validator"
-import { Shelf, Drugs, SlotStatus } from "generated/prisma";
+import { IsOptional, IsString, IsDate, MaxLength } from "class-validator"
 
 export class CreateDrugDto {
     @IsOptional()
@@ -42,6 +41,11 @@ export class CreateDrugDto {
     @IsString()
     @MaxLength(150)
     note: string
+
+    @Optional()
+    @IsString()
+    @MaxLength(100)
+    img: string
 
     @Optional()
     @IsString()

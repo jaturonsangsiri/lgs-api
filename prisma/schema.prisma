@@ -32,7 +32,7 @@ enum ShelfStatus {
   ONLINE // ออนไลน์
   OFFLINE //ออฟไลน์
   MAINTENANCE // กำลังซ่อมบำรุง
-  LOADING // กำลังเติมยา
+  REFILLING // กำลังเติมยา
 }
 
 enum ShelfType {
@@ -73,7 +73,7 @@ model Drugs {
   usage     String // วิธีใช้
   warning   String // คำเตือนในการใช้
   note      String // หมายเหตุ เช่น การใช้ยากับสตรีมีครรภ์
-  img       String // path รูปยา
+  img       String   @default("") // path รูปยา
   documents String // เอกสารกับกำยา
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -97,20 +97,20 @@ enum SystemLog {
   MAINTAINING_SHELF // กำลังซ่อมบำรุงตู้
 }
 
-// // ข้อมูลผู้ใช้ในระบบ
-// model users {
-//   id          String   @id @default(uuid())
-//   username    String // ชื่อบัญชี
-//   displayName String // ชื่อผู้ใช้ที่แสดงบนระบบ
-//   role        Role
-//   password    String
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @default(now())
-// }
+// ข้อมูลผู้ใช้ในระบบ
+model users {
+  id          String   @id @default(uuid())
+  username    String   @unique // ชื่อบัญชี
+  displayName String // ชื่อผู้ใช้ที่แสดงบนระบบ
+  role        Role
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
 
-// // Role บทบาทผู้ใช้ในระบบ
-// enum Role {
-//   USER
-//   ADMIN
-//   SUPER_ADMIN
-// }
+// Role บทบาทผู้ใช้ในระบบ
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}

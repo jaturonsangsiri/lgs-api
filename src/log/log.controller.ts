@@ -1,16 +1,21 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
 import { LogService } from './log.service';
 import { createLogDto } from './dto/create-log.dto';
+import { AuthGuard, Roles } from 'src/auth/auth.guard';
 
 @Controller('log')
 export class LogController {
     constructor(private readonly logService: LogService) {}
 
+    @UseGuards(AuthGuard)
+    @Roles('ADMIN','SUPER_ADMIN')
     @Get()
     async findAll() {
         return this.logService.findAll();
     }
 
+    @UseGuards(AuthGuard)
+    @Roles('ADMIN','SUPER_ADMIN')
     @Post()
     async add(@Body() createLogDto: createLogDto) {
         return this.logService.add(createLogDto);
