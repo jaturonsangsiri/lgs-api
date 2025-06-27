@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
 import { LogService } from './log.service';
 import { createLogDto } from './dto/create-log.dto';
-import { AuthGuard, Roles } from 'src/auth/auth.guard';
+import { AuthGuard, Roles } from 'src/common/guards/auth.guard';
 
 @Controller('log')
 export class LogController {

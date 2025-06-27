@@ -103,6 +103,7 @@ model users {
   username    String   @unique // ชื่อบัญชี
   displayName String // ชื่อผู้ใช้ที่แสดงบนระบบ
   role        Role
+  img         String   @default("")
   password    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())

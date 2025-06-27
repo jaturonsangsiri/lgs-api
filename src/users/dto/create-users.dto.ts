@@ -24,6 +24,11 @@ export class CreateUsersDto {
     @IsOptional()
     @IsString()
     @MaxLength(100)
+    img: string;
+
+    @IsOptional()
+    @IsString()
+    @MaxLength(100)
     password: string;
 
     @IsOptional()
