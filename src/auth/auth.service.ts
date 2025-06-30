@@ -17,6 +17,7 @@ export class AuthService {
     // const refreshToken = this.jwtService.signAsync(payload, { secret: 'REFRESH_TOKEN_SECRET', expiresIn: '7d' });
 
     return {
+      message: 'Success Login!',
       access_token: await this.jwtService.signAsync(payload, {secret: jwtConstants.secret, expiresIn: '15m'})
     };
   }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
 import { DrugService } from './drug.service';
 import { CreateDrugDto } from './dto/create-drug.dto';
 import { UpdateDrugDto } from './dto/update-drug.dto';
@@ -15,6 +15,11 @@ export class DrugController {
   @Post()
   async create(@Body() createDrugDto: CreateDrugDto) {
     return this.drugService.create(createDrugDto);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.drugService.findOne(id);
   }
 
   @Patch(':id')

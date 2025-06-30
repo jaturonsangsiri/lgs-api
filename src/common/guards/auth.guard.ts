@@ -15,8 +15,10 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException('Token not found!');
     }
-    const payload = await this.jwtService.verifyAsync(token, { secret: jwtConstants.secret });
-    
+
+    let payload: any;
+    payload = await this.jwtService.verifyAsync(token, { secret: jwtConstants.secret });
+
     // เก็บข้อมูลผู้ใช้ใน request object เพื่อใช้ใน controller
     request.user = payload;
 

@@ -5,25 +5,25 @@ import { UpdateShelfDto } from './dto/update-shelf.dto';
 
 @Controller('shelf')
 export class ShelfController {
-    constructor(private readonly shelfService: ShelfService) {}
+  constructor(private readonly shelfService: ShelfService) { }
 
-    @Get()
-    async findAll() {
-        return this.shelfService.findAll();
-    }
+  @Get()
+  async findAll() {
+    return this.shelfService.findAll();
+  }
 
-    @Post()
-    async create(@Body() createShelfDto: CreateShelfDto) {
-        return this.shelfService.create(createShelfDto);
-    }
+  @Post()
+  async create(@Body() createShelfDto: CreateShelfDto) {
+    return this.shelfService.create(createShelfDto);
+  }
 
-    @Patch(':id')
-    async update(@Param('id') id: string, @Body() updateShelfDto: UpdateShelfDto) {
-        return this.shelfService.update(id, updateShelfDto);
-    }
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateShelfDto: UpdateShelfDto) {
+    return this.shelfService.update(id, updateShelfDto);
+  }
 
-    @Delete(':id')
-    async delete(@Param('id') id: string) {
-        return this.shelfService.remove(id);
-    }
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return this.shelfService.remove(id);
+  }
 }
